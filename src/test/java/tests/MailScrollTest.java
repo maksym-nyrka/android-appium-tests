@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created on 13-Dec-16 at 5:10 PM.
  */
-public class MailWithScrollTest extends BaseTest{
+public class MailScrollTest extends BaseTest{
 
     private String sdkPath = "C:\\Users\\user001\\AppData\\Local\\Android\\sdk\\";
     private String adbPath = sdkPath + "platform-tools" + File.separator + "adb";
@@ -27,7 +27,7 @@ public class MailWithScrollTest extends BaseTest{
     private String mailSubject="Hello, tester";
     private String mailBody=mailSubject+"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+"How are you?";
 
-    MailWithScrollTest()
+    MailScrollTest()
     {
         super("C:\\Users\\user001\\Downloads\\ch.protonmail.android_1.5.7-251_minAPI15(arm64-v8a,armeabi,armeabi-v7a,x86)(nodpi)_apkmirror.com.apk"
                 ,"ch.protonmail.android.activities.SplashActivity");

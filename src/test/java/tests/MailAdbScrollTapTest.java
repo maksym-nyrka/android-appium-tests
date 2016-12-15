@@ -14,12 +14,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 //This code is a masterpiece
-public class MailTapTest extends BaseTest{
+public class MailAdbScrollTapTest extends BaseTest{
 
     private String mailSubject="Hello, tester";
     private String mailBody="How are you?";
 
-    MailTapTest()
+    MailAdbScrollTapTest()
     {
         super("C:\\Users\\user001\\Downloads\\ch.protonmail.android_1.5.7-251_minAPI15(arm64-v8a,armeabi,armeabi-v7a,x86)(nodpi)_apkmirror.com.apk"
                 ,"ch.protonmail.android.activities.SplashActivity");

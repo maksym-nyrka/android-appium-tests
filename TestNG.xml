@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="TwitterTests">
+    <!--<listeners>
+
+    </listeners>-->
+
+    <test name="CalcTest">
+        <classes>
+            <class name="tests.CalcTest"/>
+        </classes>
+    </test>
+    <test name="MailTest">
+        <classes>
+            <class name="tests.MailTest"/>
+        </classes>
+    </test>
+    <test name="MailWithScrollTest">
+        <classes>
+            <class name="tests.MailScrollTest"/>
+        </classes>
+    </test>
+    <test name="MailWithAdbScrollTapTest">
+        <classes>
+            <class name="tests.MailAdbScrollTapTest"/>
+        </classes>
+    </test>
+</suite>
+
+
