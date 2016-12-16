@@ -5,12 +5,6 @@
     <!--<listeners>
 
     </listeners>-->
-
-    <test name="CalcTest">
-        <classes>
-            <class name="tests.CalcTest"/>
-        </classes>
-    </test>
     <test name="MailTest">
         <classes>
             <class name="tests.MailTest"/>
