@@ -1,13 +1,14 @@
-package tests; /**
+package tests;
+/**
  * Created on 15-Dec-16 at 2:27 PM.
  */
+import actions.MailActions;
 import data_providers.DataProviders;
+import io.appium.java_client.android.AndroidElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.*;
 
 
 import java.text.SimpleDateFormat;
@@ -15,64 +16,56 @@ import java.util.Date;
 
 //This code is a masterpiece
 public class MailAdbScrollTapTest extends BaseTest{
+    private InboxPage objInboxPage;
+    private LoginPage objLoginPage;
+    private MainPage objMainPage;
+    private NewLetterPage objNewLetterPage;
 
     private String mailSubject="Hello, tester";
     private String mailBody="How are you?";
 
-    MailAdbScrollTapTest()
-    {
-        super("C:\\Users\\user001\\Downloads\\ch.protonmail.android_1.5.7-251_minAPI15(arm64-v8a,armeabi,armeabi-v7a,x86)(nodpi)_apkmirror.com.apk"
-                ,"ch.protonmail.android.activities.SplashActivity");
-    }
-
     @Test(dataProvider = "user-credentials", dataProviderClass = DataProviders.class)
     public void testMail(String username, String password)
     {
-        WebDriverWait wait = new WebDriverWait(driver, 20);
+        objMainPage = new MainPage(driver);
+        if (MailActions.userIsNotLoggedIn(objMainPage)) {
+            objMainPage.clickSingInButton();
 
-        //Main Page - if it's a first run
-        if (driver.findElements(By.xpath("//android.widget.Button[@text='Sign In']")).size()>0) {
-            WebElement signinButton = driver.findElement(By.xpath("//android.widget.Button[@text='Sign In']"));
-            signinButton.click();
+            objLoginPage = new LoginPage(driver);
+            MailActions.logIn(username,password,objLoginPage);
 
-            //Login Page
-            WebElement usernameTextfield = driver.findElement(By.xpath("//android.widget.EditText[@text='Username']"));
-            usernameTextfield.sendKeys(username);
-            WebElement passwordTextfield = driver.findElement(By.xpath("//android.widget.EditText[@password='true']"));
-            passwordTextfield.sendKeys(password);
-            WebElement loginButton = driver.findElement(By.xpath("//android.widget.Button[@text='Sign In']"));
-            loginButton.click();
-
-            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//android.widget.Button[@text='close tour']")));
-            WebElement closeTourButton = driver.findElement(By.xpath("//android.widget.Button[@text='close tour']"));
-            closeTourButton.click();
+            objInboxPage = new InboxPage(driver);
+            String closeTourButtonXpath ="//android.widget.Button[@text='close tour']";
+            objInboxPage.waitElementToBeClickable(By.xpath(closeTourButtonXpath));
+            objInboxPage.clickCloseTourButton();
         }
-        //Inbox Page
-        /**/
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.Button[@text='Get Google Play services']")));
-        adbTap(500,1100);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.TextView[@content-desc='Compose message']")));
-        adbTap(1000,100);
 
-        //New letter Page
+        objInboxPage = new InboxPage(driver);
+        String googleServicesButtonXpath="//android.widget.Button[@text='Get Google Play services']";
+        objInboxPage.waitElementToBeVisible(By.xpath(googleServicesButtonXpath));
+        objInboxPage.adbTap(500,1100);
+        String composeMessageButtonXpath ="//android.widget.TextView[@content-desc='Compose message']";
+        objInboxPage.waitElementToBeVisible(By.xpath(composeMessageButtonXpath));
+        objInboxPage.adbTap(1000,100);
+
+        objNewLetterPage = new NewLetterPage(driver);
         String dateNow = new SimpleDateFormat("K:mm aa").format(new Date());
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.Button[@text='Deny']")));
-        adbTap(550,1100);
-        WebElement recipientTextfield = driver.findElement(By.xpath("//android.widget.MultiAutoCompleteTextView[@index='1']"));
-        recipientTextfield.sendKeys(username);
-        WebElement subjectTextfield = driver.findElement(By.xpath("//android.widget.EditText[@text='Subject']"));
-        subjectTextfield.sendKeys(mailSubject);
-        WebElement bodyTextfield = driver.findElement(By.xpath("//android.widget.EditText[@index='1']"));
-        bodyTextfield.sendKeys(mailBody);
+        String denyAccessButtonXpath="//android.widget.Button[@text='Deny']";
+        objNewLetterPage.waitElementToBeVisible(By.xpath(denyAccessButtonXpath));
+        objNewLetterPage.adbTap(550,1100);
+        MailActions.composeNewMail(username,mailSubject,mailBody,objNewLetterPage);
+        String sendButtonXpath="//android.widget.TextView[@content-desc='Send']";
+        objNewLetterPage.waitElementToBeVisible(By.xpath(sendButtonXpath));
+        objNewLetterPage.adbTap(1000,150);
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.TextView[@content-desc='Send']")));
-        adbTap(1000,150);
+        objInboxPage = new InboxPage(driver);
+        String menuXpath="//android.widget.ImageButton[@content-desc='Open']";
+        objInboxPage.waitElementToBeVisible(By.xpath(menuXpath));
+        objInboxPage.adbSwipe(100,500,100,1300,800);
 
-        //Inbox Page
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.ImageButton[@content-desc='Open']")));
-        adbSwipe(100,500,100,1300,800);
-
-        WebElement firstMessageTime = driver.findElement(By.xpath("//android.widget.TextView[@text='"+dateNow+"']"));
+        String firstMessageXpath ="//android.widget.TextView[@text='"+dateNow+"']";
+        objInboxPage.waitElementToBeVisible(By.xpath(firstMessageXpath));
+        AndroidElement firstMessageTime = driver.findElement(By.xpath("//android.widget.TextView[@text='"+dateNow+"']"));
         Assert.assertEquals(firstMessageTime.getText(),dateNow);
     }
 
