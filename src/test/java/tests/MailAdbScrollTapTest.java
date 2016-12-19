@@ -53,7 +53,7 @@ public class MailAdbScrollTapTest extends BaseTest{
         String denyAccessButtonXpath="//android.widget.Button[@text='Deny']";
         objNewLetterPage.waitElementToBeVisible(By.xpath(denyAccessButtonXpath));
         objNewLetterPage.adbTap(550,1100);
-        MailActions.composeNewMail(username,mailSubject,mailBody,objNewLetterPage);
+        MailActions.newMailFullRoutine(username,mailSubject,mailBody,objNewLetterPage);
         String sendButtonXpath="//android.widget.TextView[@content-desc='Send']";
         objNewLetterPage.waitElementToBeVisible(By.xpath(sendButtonXpath));
         objNewLetterPage.adbTap(1000,150);

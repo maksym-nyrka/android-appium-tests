@@ -24,8 +24,13 @@ public class InboxPage extends BasePage {
     @FindBy(xpath = "//android.widget.TextView[@text='Inbox']")
     AndroidElement inboxMenuButton;
 
+    @FindBy(xpath = "//android.widget.TextView[@text='Drafts']")
+    AndroidElement draftsMenuButton;
+
     @FindBy(xpath = "//android.widget.ListView[@index='0']//android.widget.RelativeLayout[@index='1']")
     AndroidElement firstMessage;
+
+
 
     public InboxPage(AppiumDriver<AndroidElement> driver) {
         super(driver);
@@ -52,5 +57,9 @@ public class InboxPage extends BasePage {
     }
     public void clickFirstMessage() {
         firstMessage.click();
+    }
+    public void clickDraftsMenuButton()
+    {
+        draftsMenuButton.click();
     }
 }

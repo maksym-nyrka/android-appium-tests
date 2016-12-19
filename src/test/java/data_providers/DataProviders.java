@@ -12,5 +12,11 @@ public class DataProviders {
                 {"automationqa@protonmail.ch", "qatestlab2005"},
         };
     }
+    @DataProvider(name = "file")
+    public static Object[][] getData2() {
+        return new Object[][]{
+                {"Content","doc.txt","/storage/emulated/0/Ringtones"},
+        };
+    }
 
 }

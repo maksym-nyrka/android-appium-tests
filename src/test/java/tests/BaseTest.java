@@ -63,7 +63,7 @@ abstract public class BaseTest {
         capabilities.setCapability("fullReset", false);
         capabilities.setCapability("app", prop.getProperty("apkPath"));
         capabilities.setCapability("app-wait-activity", prop.getProperty("mainActivity"));
-        capabilities.setCapability("newCommandTimeout","88000");
+        capabilities.setCapability("newCommandTimeout","148800");
 
         driver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
@@ -79,5 +79,13 @@ abstract public class BaseTest {
         } catch (IOException e) {
             e.printStackTrace();
         }*/
+    }
+    public void forceStopApp()
+    {
+        try {
+            Runtime.getRuntime().exec("adb -s "+prop.getProperty("deviceName")+" shell am force-stop "+prop.getProperty("packageName"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

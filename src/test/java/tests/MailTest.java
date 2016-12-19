@@ -42,12 +42,12 @@ public class MailTest extends BaseTest{
         MailActions.startComposingNewMail(objInboxPage);
 
         objNewLetterPage = new NewLetterPage(driver);
-        MailActions.composeNewMail(username,mailSubject,mailBody, objNewLetterPage);
+        MailActions.newMailFullRoutine(username,mailSubject,mailBody, objNewLetterPage);
         MailActions.sendMail(objNewLetterPage);
 
         objInboxPage = new InboxPage(driver);
         MailActions.refreshInbox(objInboxPage);
-        MailActions.selectFirstMessage(objInboxPage);
+        MailActions.selectFirstMessageInbox(objInboxPage);
 
         objMessagePage = new MessagePage(driver);
         Assert.assertEquals(objMessagePage.getSenderTextField().getText().toLowerCase(),username.substring(0,12).toLowerCase());

@@ -20,6 +20,11 @@
             <class name="tests.MailAdbScrollTapTest"/>
         </classes>
     </test>
+    <test name="FileEditingTest">
+        <classes>
+            <class name="tests.FileEditingTest"/>
+        </classes>
+    </test>
 </suite>
 
 

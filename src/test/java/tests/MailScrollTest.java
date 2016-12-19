@@ -2,15 +2,10 @@ package tests;
 
 import actions.MailActions;
 import data_providers.DataProviders;
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.SwipeElementDirection;
-import io.appium.java_client.android.AndroidElement;
 import org.openqa.selenium.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.*;
-
-import java.util.List;
 
 
 /**
@@ -26,6 +21,8 @@ public class MailScrollTest extends BaseTest{
 
     private String mailSubject="Hello, tester";
     private String mailBody=mailSubject+"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+"How are you?";
+
+    private String subjectName="Subject";
 
     @Test(dataProvider = "user-credentials", dataProviderClass = DataProviders.class)
     public void testMail(String username, String password)
@@ -48,25 +45,23 @@ public class MailScrollTest extends BaseTest{
         MailActions.startComposingNewMail(objInboxPage);
 
         objNewLetterPage = new NewLetterPage(driver);
-        MailActions.composeNewMail(username,mailSubject,mailBody, objNewLetterPage);
+        MailActions.newMailInit(objNewLetterPage);
+        MailActions.setRecipient(username,objNewLetterPage);
+        MailActions.setBody(mailBody,objNewLetterPage);
         driver.hideKeyboard();
 
-        //Scroll
-        AndroidElement scrollView = objNewLetterPage.getScrollView();
-        List<MobileElement> textView = scrollView.findElementsByAndroidUIAutomator("new UiSelector().text(\"Subject\")");
-        while (textView.size() == 0) {
-            scrollView.swipe(SwipeElementDirection.DOWN, 20, 15, 5000);
-            textView = scrollView.findElementsByAndroidUIAutomator("new UiSelector().text(\"Subject\")");
-        }
+        objNewLetterPage.scrollToElementUp(subjectName,objNewLetterPage.getScrollView());
 
         MailActions.setSubject(mailSubject,objNewLetterPage);
         MailActions.sendMail(objNewLetterPage);
 
         objInboxPage = new InboxPage(driver);
         MailActions.refreshInbox(objInboxPage);
-        MailActions.selectFirstMessage(objInboxPage);
+        MailActions.selectFirstMessageInbox(objInboxPage);
 
         objMessagePage = new MessagePage(driver);
+        String mailSenderXpath="//android.widget.TableRow[@index='0']//android.widget.TextView[@index='1']";
+        objMessagePage.waitElementToBeVisible(By.xpath(mailSenderXpath));
         Assert.assertEquals(objMessagePage.getSenderTextField().getText().toLowerCase(),username.substring(0,12).toLowerCase());
     }
 
