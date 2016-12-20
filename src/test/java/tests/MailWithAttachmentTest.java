@@ -110,7 +110,7 @@ public class MailWithAttachmentTest extends BaseTest {
 
         objMessagePage = new MessagePage(driver);
         MailActions.clickAttachment(objMessagePage);
-        Assert.assertEquals(objMessagePage.getAttachmentName(),expected);
+        Assert.assertEquals(objMessagePage.getAttachmentName().trim(),expected.trim());
         //Assert.assertEquals(objMessagePage.getSenderTextField().getText().toLowerCase(),username.substring(0,12).toLowerCase());
     }
 

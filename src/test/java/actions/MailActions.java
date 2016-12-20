@@ -36,6 +36,8 @@ public class MailActions {
         String menuButtonXpath="//android.widget.ImageButton[@content-desc='Open']";
         inboxPage.waitElementToBeVisible(By.xpath(menuButtonXpath));
         inboxPage.clickMenuButton();
+        String inboxButtonXpath="//android.widget.TextView[@text='Inbox']";
+        inboxPage.waitElementToBeVisible(By.xpath(inboxButtonXpath));
         inboxPage.clickInboxMenuButton();
     }
     public static void openMenu(InboxPage inboxPage)
